@@ -1,0 +1,36 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="mai" id="202002012306-role-migration">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="ROLE_SEQ"/>
+                <tableExists tableName="ROLE"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="ROLE_SEQ" incrementBy="10" startValue="1"/>
+
+        <createTable tableName="ROLES">
+            <column name="ID" type="INTEGER" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ROLES_PK"/>
+            </column>
+
+            <column name="NAME" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="ROLES">
+            <column name="NAME" value="ROLE_USER"/>
+        </insert>
+
+        <insert tableName="ROLES">
+            <column name="NAME" value="ROLE_ADMIN"/>
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>

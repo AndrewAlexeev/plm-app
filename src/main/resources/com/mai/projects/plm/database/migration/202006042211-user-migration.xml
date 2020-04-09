@@ -1,0 +1,51 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="mai" id="2020020222348-user-migration">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="USER_SEQ"/>
+                <tableExists tableName="USER"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="USER_SEQ" incrementBy="10" startValue="1"/>
+
+        <createTable tableName="USERS">
+            <column name="ID" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="USERS_PK"/>
+            </column>
+            <column name="USER_NAME" type="VARCHAR(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CREATED" type="TIMESTAMP" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="UPDATED" type="TIMESTAMP" defaultValue="NOW()" >
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="STATUS" type="VARCHAR(25)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,34 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="mai" id="202002012316-product-migration">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="PRODUCT_SEQ"/>
+                <tableExists tableName="PRODUCT"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="PRODUCT_SEQ" incrementBy="10" startValue="1"/>
+
+        <createTable tableName="PRODUCT">
+            <column name="ID" type="INTEGER" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PRODUCT_PK"/>
+            </column>
+
+            <column name="TITLE" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="SERIAL_NUMBER" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+    </changeSet>
+
+
+</databaseChangeLog>

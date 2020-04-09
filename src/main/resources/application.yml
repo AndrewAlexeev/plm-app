@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: plm-app
+
+  datasource:
+    initialization-mode: always
+    platform: postgres
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/mai}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:postgres}
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 3
+      schema: plm
+      maximum-pool-size: 3
+      minimum-idle: 1
+      connection-timeout: 30000
+
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  database: postgres
+  hibernate:
+    ddl-auto: none
+
+  liquibase:
+    enabled: true
+    change-log: classpath:com\\mai\\projects\\plm\\database\\migration\\plm.xml
+
+server:
+  port: ${PORT:5050}
+
+
+jwt:
+  token:
+    secret: jwtappdemo
+    expired: 600000
