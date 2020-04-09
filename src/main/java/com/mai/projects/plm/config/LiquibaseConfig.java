@@ -19,7 +19,7 @@ public class LiquibaseConfig {
 
     public SpringLiquibase liquibase() throws Exception {
         //      Locate change log file
-        String changelogFile = "classpath:com\\mai\\projects\\plm\\database\\migration\\smarthome.xml";
+        String changelogFile = "classpath:com\\mai\\projects\\plm\\database\\migration\\plm.xml";
         Resource resource = resourceLoader.getResource(changelogFile);
 
         Assert.state(resource.exists(), "Unable to find file: " + resource.getFilename());
