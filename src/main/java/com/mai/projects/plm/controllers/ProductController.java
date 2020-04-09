@@ -1,6 +1,7 @@
 package com.mai.projects.plm.controllers;
 
 import com.mai.projects.plm.model.request.AddProductRequest;
+import com.mai.projects.plm.model.response.ResponseObject;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,5 +12,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("product")
 public interface ProductController {
 	@PostMapping()
-	ResponseEntity addProduct(@RequestBody AddProductRequest addProductRequest);
+	ResponseEntity<ResponseObject<Object>> addProduct(@RequestBody AddProductRequest addProductRequest);
 }

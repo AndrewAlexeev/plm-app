@@ -5,6 +5,8 @@ import com.mai.projects.plm.enums.ErrorEnum;
 import com.mai.projects.plm.exception.ServerException;
 import com.mai.projects.plm.model.response.ResponseHeader;
 import com.mai.projects.plm.model.response.ResponseObject;
+import com.mai.projects.plm.security.jwt.exception.JwtAuthenticationException;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,16 @@ public class ExceptionHandler extends AbstractMainController implements Controll
 
     @Override
     public <T> ResponseEntity<ResponseObject<Object>> catchAuthenticationException(AuthenticationException ex) {
+        ResponseHeader responseHeader= new ResponseHeader();
+        //ErrorEnum errorEnum = ex.getError();
+        //responseHeader.setResponseCode(errorEnum.getCode());
+//        responseHeader.setResponseMessage(String.format(errorEnum.getMessage(), null));
+        //TODO доделать
+        return prepareResponseEntity(responseHeader,HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public <T> ResponseEntity<ResponseObject<Object>> catchAuthenticationException(ExpiredJwtException ex) {
         ResponseHeader responseHeader= new ResponseHeader();
         //ErrorEnum errorEnum = ex.getError();
         //responseHeader.setResponseCode(errorEnum.getCode());

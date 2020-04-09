@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="mai" id="202002012318-stage-migration">
+    <changeSet author="mai" id="202002012319-stage-migration">
         <preConditions onFail="MARK_RAN">
             <not>
                 <sequenceExists sequenceName="STAGE_SEQ"/>
@@ -34,7 +34,7 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="PRODUCT" type="INTEGER" autoIncrement="true">
+            <column name="PRODUCT_ID" type="INTEGER" autoIncrement="true">
                 <constraints nullable="false" foreignKeyName="fk_stage_product" references="product(id)"/>
             </column>
 
