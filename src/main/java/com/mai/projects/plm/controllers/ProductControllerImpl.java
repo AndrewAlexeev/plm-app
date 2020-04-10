@@ -2,14 +2,19 @@ package com.mai.projects.plm.controllers;
 
 import com.mai.projects.plm.entities.Product;
 import com.mai.projects.plm.entities.User;
+import com.mai.projects.plm.enums.ErrorEnum;
+import com.mai.projects.plm.exception.ServerException;
 import com.mai.projects.plm.model.request.AddProductRequest;
 import com.mai.projects.plm.model.request.DocumentContext;
+import com.mai.projects.plm.model.response.ProductResponse;
+import com.mai.projects.plm.model.response.ProductsResponse;
 import com.mai.projects.plm.model.response.ResponseObject;
 import com.mai.projects.plm.repository.DocumentRepository;
 import com.mai.projects.plm.repository.ProductRepository;
 import com.mai.projects.plm.repository.StageRepository;
 import com.mai.projects.plm.repository.UserRepository;
-import com.mai.projects.plm.utils.AddProductRequest2Product;
+import com.mai.projects.plm.utils.AddProductRequest2ProductAdapter;
+import com.mai.projects.plm.utils.Product2ProductResponseAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,13 +38,27 @@ public class ProductControllerImpl extends AbstractMainController implements Pro
 				.flatMap(stageContext -> stageContext.getDocuments().stream().map(DocumentContext::getEmployeeId))
 				.collect(Collectors.toList());
 		List<User> users = userRepository.findAllById(userId);
-
-		Product product = AddProductRequest2Product.convert(addProductRequest,users);
+		if (userId.size() != users.size()) {
+			throw new ServerException(ErrorEnum.USERS_NOT_FOUND, null);
+		}
+		Product product = AddProductRequest2ProductAdapter.convert(addProductRequest, users);
 		productRepository.save(product);
 		stageRepository.saveAll(product.getStages());
 		product.getStages().forEach(stage -> {
 			documentRepository.saveAll(stage.getDocuments());
 		});
 		return prepareEmptyResponseEntity();
+	}
+
+	@Override
+	public ResponseEntity<ResponseObject<ProductsResponse>> fetchProducts() {
+		List<ProductResponse> productResponses = productRepository
+				.findAll()
+				.stream()
+				.map(Product2ProductResponseAdapter::convert)
+				.collect(Collectors.toList());
+		ProductsResponse productsResponse = new ProductsResponse();
+		productsResponse.setProducts(productResponses);
+		return prepareResponseEntity(productsResponse);
 	}
 }

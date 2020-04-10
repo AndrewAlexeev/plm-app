@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class StageContext2Stage {
+public class StageContext2StageAdapter {
 	public static List<Stage> convert(List<StageContext> stageContexts, List<User> users) {
 		return stageContexts
 				.stream()
