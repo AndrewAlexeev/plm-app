@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class Product {
 	@Column(name = "serial_number")
 	private String serialNumber;
 
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
 	private List<Stage> stages;
 
 }

@@ -15,6 +15,7 @@ import com.mai.projects.plm.repository.StageRepository;
 import com.mai.projects.plm.repository.UserRepository;
 import com.mai.projects.plm.utils.AddProductRequest2ProductAdapter;
 import com.mai.projects.plm.utils.Product2ProductResponseAdapter;
+import com.mai.projects.plm.utils.ProductDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,5 +61,14 @@ public class ProductControllerImpl extends AbstractMainController implements Pro
 		ProductsResponse productsResponse = new ProductsResponse();
 		productsResponse.setProducts(productResponses);
 		return prepareResponseEntity(productsResponse);
+	}
+
+	@Override
+	public ResponseEntity<ResponseObject<ProductDetailResponse>> fetchProduct(Long productId) {
+		Product product = productRepository
+				.findById(productId)
+				.orElseThrow(() -> new ServerException(ErrorEnum.USERS_NOT_FOUND, null));
+
+		return prepareResponseEntity(Product2ProductResponseAdapter.convertDetail(product));
 	}
 }

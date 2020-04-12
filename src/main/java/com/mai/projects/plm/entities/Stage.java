@@ -42,7 +42,7 @@ public class Stage {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id")
 	private Product product;
-	@OneToMany(mappedBy = "stage")
+	@OneToMany(mappedBy = "stage",fetch = FetchType.EAGER)
 	private List<Document> documents;
 
 }

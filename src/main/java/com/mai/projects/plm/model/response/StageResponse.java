@@ -1,0 +1,17 @@
+package com.mai.projects.plm.model.response;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+public class StageResponse {
+	private Integer serialNumber;
+	private String title;
+	private LocalDate startDate;
+	private LocalDate finishDate;
+	private List<DocumentResponse> documents;
+}
