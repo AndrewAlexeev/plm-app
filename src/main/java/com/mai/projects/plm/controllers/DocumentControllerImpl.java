@@ -77,11 +77,12 @@ public class DocumentControllerImpl extends AbstractMainController implements Do
 	@Override
 	public ResponseEntity<ByteArrayResource> download(Long docId) throws IOException {
 
+		//TODO если нет файла
 		Path path = rootLocation.resolve(docId.toString());
 		byte[] data = Files.readAllBytes(path);
 		ByteArrayResource resource = new ByteArrayResource(data);
 		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + path.getFileName().toString())
+				.header(HttpHeaders.CONTENT_DISPOSITION, "inline" )
 				.contentType(MediaType.IMAGE_PNG)
 				.contentLength(data.length)
 				.body(resource);
