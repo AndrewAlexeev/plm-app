@@ -28,7 +28,6 @@ public class JwtTokenFilter extends GenericFilterBean {
 		String header = httpServletRequest.getHeader("Authorization");
 		if (header != null && header.startsWith("Bearer ")) {
 			String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
-			log.info("Token = {}", token);
 			try {
 				if (token != null && jwtTokenProvider.validateToken(token)) {
 					log.info("valid Token");

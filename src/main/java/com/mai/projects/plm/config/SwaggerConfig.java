@@ -5,7 +5,6 @@ import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,8 +18,8 @@ import springfox.documentation.spring.web.readers.operation.HandlerMethodResolve
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 //http://localhost:5050/swagger-ui.html
 
-//@Configuration
-//@EnableSwagger2
+@Configuration
+@EnableSwagger2
 public class SwaggerConfig {
 	@Bean
 	public Docket productApi() {
