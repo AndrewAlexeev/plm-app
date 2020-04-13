@@ -10,6 +10,7 @@ import com.mai.projects.plm.model.response.ResponseObject;
 import com.mai.projects.plm.repository.DocumentRepository;
 import com.mai.projects.plm.repository.ProductRepository;
 import com.mai.projects.plm.repository.StageRepository;
+import liquibase.util.file.FilenameUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -48,13 +49,14 @@ public class DocumentControllerImpl extends AbstractMainController implements Do
 	public ResponseEntity<ResponseObject<Object>> upload(MultipartFile file, Long docId, HttpServletRequest httpServletRequest) throws IOException {
 
 		//String path2 = httpServletRequest.getServletContext().getRealPath("");
+		String fileName = docId.toString() +"."+ FilenameUtils.getExtension(file.getOriginalFilename());
 
-		Files.copy(file.getInputStream(), rootLocation.resolve(docId.toString()), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(file.getInputStream(), rootLocation.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 		Document document = documentRepository.
 				findById(docId)
 				.orElseThrow(() -> new ServerException(ErrorEnum.INVALID_DOCUMENT_ID, List.of(docId.toString())));
 
-		document.setPath("path");
+		document.setPath(fileName);
 		Stage stage = document.getStage();
 		StatusEnum newStatusStage = fetchNewStageStatus(stage);
 		if (stage.getStatus() != newStatusStage) {
@@ -76,13 +78,16 @@ public class DocumentControllerImpl extends AbstractMainController implements Do
 	@Override
 	public ResponseEntity<ByteArrayResource> download(Long docId) throws IOException {
 
-		//TODO если нет файла
-		Path path = rootLocation.resolve(docId.toString());
+		Document document = documentRepository.findById(docId)
+				.orElseThrow(() -> new ServerException(ErrorEnum.INVALID_DOCUMENT_ID, List.of(docId.toString())));
+
+		Path path = rootLocation.resolve(document.getPath());
 		byte[] data = Files.readAllBytes(path);
 		ByteArrayResource resource = new ByteArrayResource(data);
+		String contentType = Files.probeContentType(path);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline")
-				.header(HttpHeaders.CONTENT_TYPE,Files.probeContentType(path))
+				.header(HttpHeaders.CONTENT_TYPE, contentType)
 				.contentLength(data.length)
 				.body(resource);
 	}
