@@ -5,7 +5,6 @@ import com.mai.projects.plm.enums.ErrorEnum;
 import com.mai.projects.plm.exception.ServerException;
 import com.mai.projects.plm.model.response.ResponseHeader;
 import com.mai.projects.plm.model.response.ResponseObject;
-import com.mai.projects.plm.security.jwt.exception.JwtAuthenticationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

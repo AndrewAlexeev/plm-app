@@ -6,6 +6,7 @@ import com.mai.projects.plm.entities.Stage;
 import com.mai.projects.plm.enums.ErrorEnum;
 import com.mai.projects.plm.enums.StatusEnum;
 import com.mai.projects.plm.exception.ServerException;
+import com.mai.projects.plm.model.response.ResponseObject;
 import com.mai.projects.plm.repository.DocumentRepository;
 import com.mai.projects.plm.repository.ProductRepository;
 import com.mai.projects.plm.repository.StageRepository;
@@ -42,66 +43,48 @@ public class DocumentControllerImpl extends AbstractMainController implements Do
 	@PostConstruct
 	public void init() throws IOException {
 		Files.createDirectories(rootLocation);
-		log.info(rootLocation.toString());
 	}
 
 	@Override
-	public ResponseEntity<ByteArrayResource> upload(MultipartFile file, Long docId, HttpServletRequest httpServletRequest) throws IOException {
+	public ResponseEntity<ResponseObject<Object>> upload(MultipartFile file, Long docId, HttpServletRequest httpServletRequest) throws IOException {
 
 		//String path2 = httpServletRequest.getServletContext().getRealPath("");
 
-		Files.copy(file.getInputStream(), rootLocation.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(file.getInputStream(), rootLocation.resolve(docId.toString()), StandardCopyOption.REPLACE_EXISTING);
+		Document document = documentRepository.
+				findById(docId)
+				.orElseThrow(() -> new ServerException(ErrorEnum.INVALID_DOCUMENT_ID, List.of(docId.toString())));
 
-//		Document document = documentRepository.
-//				findById(docId)
-//				.orElseThrow(() -> new ServerException(ErrorEnum.INVALID_DOCUMENT_ID, List.of(docId.toString())));
-//
-//		document.setPath("path");
-//		Stage stage = document.getStage();
-//		StatusEnum newStatusStage = fetchNewStageStatus(stage);
-//		if (stage.getStatus() != newStatusStage) {
-//			stage.setStatus(newStatusStage);
-//			Product product = stage.getProduct();
-//			StatusEnum newProductStatus = fetchNewProductStatus(product);
-//			if (product.getStatus() != newProductStatus) {
-//				product.setStatus(newProductStatus);
-//				productRepository.save(product);
-//			}
-//			stageRepository.save(stage);
-//		}
-//		documentRepository.save(document);
-//			File filesave = new File(rootLocation.resolve(file.getOriginalFilename()).toString());
-//			Path pathSaveFile = rootLocation.resolve(file.getOriginalFilename());
-//			UrlResource resource = new UrlResource(pathSaveFile.toUri());
-////			Files.probeContentType(pathSaveFile);
-////			log.info(pathSaveFile.toUri().getPath());
-//		File filed = new File(rootLocation.resolve(file.getOriginalFilename()).toString());
-//
-//		//InputStreamResource resource = new InputStreamResource(new FileInputStream(filed));
-//		return ResponseEntity.ok()
-//				// Content-Disposition
-//				//.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
-//				//.header(HttpHeaders.CONTENT_TYPE,Files.probeContentType(rootLocation.resolve(file.getOriginalFilename())))
-//
-//				// Content-Type
-//				.contentType(MediaType.IMAGE_PNG)
-//				// Contet-Length
-//				.contentLength(filed.length()) //
-//				.body(resource);
+		document.setPath("path");
+		Stage stage = document.getStage();
+		StatusEnum newStatusStage = fetchNewStageStatus(stage);
+		if (stage.getStatus() != newStatusStage) {
+			stage.setStatus(newStatusStage);
+			Product product = stage.getProduct();
+			StatusEnum newProductStatus = fetchNewProductStatus(product);
+			if (product.getStatus() != newProductStatus) {
+				product.setStatus(newProductStatus);
+				productRepository.save(product);
+			}
+			stageRepository.save(stage);
+		}
+		documentRepository.save(document);
 
-		Path path = rootLocation.resolve(file.getOriginalFilename());
+		return prepareEmptyResponseEntity();
+
+	}
+
+	@Override
+	public ResponseEntity<ByteArrayResource> download(Long docId) throws IOException {
+
+		Path path = rootLocation.resolve(docId.toString());
 		byte[] data = Files.readAllBytes(path);
 		ByteArrayResource resource = new ByteArrayResource(data);
 		return ResponseEntity.ok()
-				// Content-Disposition
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + path.getFileName().toString())
-				// Content-Type
-				.contentType(MediaType.IMAGE_PNG) //
-				// Content-Lengh
-				.contentLength(data.length) //
+				.contentType(MediaType.IMAGE_PNG)
+				.contentLength(data.length)
 				.body(resource);
-
-
 	}
 
 	private StatusEnum fetchNewStageStatus(Stage stage) {

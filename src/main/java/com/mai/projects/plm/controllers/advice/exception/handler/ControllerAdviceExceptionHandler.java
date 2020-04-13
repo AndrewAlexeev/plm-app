@@ -2,7 +2,6 @@ package com.mai.projects.plm.controllers.advice.exception.handler;
 
 import com.mai.projects.plm.exception.ServerException;
 import com.mai.projects.plm.model.response.ResponseObject;
-import com.mai.projects.plm.security.jwt.exception.JwtAuthenticationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
