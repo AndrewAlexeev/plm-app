@@ -1,6 +1,7 @@
 package com.mai.projects.plm.utils;
 
 import com.mai.projects.plm.entities.Product;
+import com.mai.projects.plm.model.response.ProductDetailResponse;
 import com.mai.projects.plm.model.response.ProductResponse;
 import com.mai.projects.plm.model.response.StageResponse;
 
@@ -13,6 +14,7 @@ public class Product2ProductResponseAdapter {
 		productResponse.setId(product.getId());
 		productResponse.setSerialNumber(product.getSerialNumber());
 		productResponse.setTitle(product.getTitle());
+		productResponse.setStatus(product.getStatus());
 		return productResponse;
 	}
 
@@ -29,6 +31,7 @@ public class Product2ProductResponseAdapter {
 				.collect(Collectors.toList());
 
 		productDetailResponse.setStages(stageResponseList);
+		productDetailResponse.setStatus(product.getStatus());
 		return productDetailResponse;
 	}
 }

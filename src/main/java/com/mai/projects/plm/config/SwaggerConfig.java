@@ -29,8 +29,6 @@ public class SwaggerConfig {
 				.paths(PathSelectors.regex("/.*"))
 				.build()
 				.apiInfo(prepareApiInfo());
-		//    .securityContexts(Lists.newArrayList(securityContext()))
-		//  .securitySchemes(Lists.newArrayList(apiKey()));
 
 	}
 
@@ -51,13 +49,7 @@ public class SwaggerConfig {
 		return new HandlerMethodResolver(resolver) {
 			@Override
 			public ResolvedType methodReturnType(HandlerMethod handlerMethod) {
-				var retType = super.methodReturnType(handlerMethod);
-
-//				while (retType.getErasedType() == Mono.class || retType.getErasedType() == Flux.class || retType.getErasedType() == ResponseEntity.class) {
-//					retType = retType.getTypeBindings().getBoundType(0);
-//				}
-
-				return retType;
+				return super.methodReturnType(handlerMethod);
 			}
 		};
 	}

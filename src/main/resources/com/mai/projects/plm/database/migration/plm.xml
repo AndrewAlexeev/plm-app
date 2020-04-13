@@ -7,8 +7,8 @@
     <include relativeToChangelogFile="true" file="202002011957-role-migration.xml"/>
     <include relativeToChangelogFile="true" file="202006042211-user-migration.xml"/>
     <include relativeToChangelogFile="true" file="202002012008-user-roles-migration.xml"/>
-    <include relativeToChangelogFile="true" file="202002012316-product-migration.xml"/>
-    <include relativeToChangelogFile="true" file="202002012319-stage-migration.xml"/>
+    <include relativeToChangelogFile="true" file="202004132316-product-migration.xml"/>
+    <include relativeToChangelogFile="true" file="202004132316-stage-migration.xml"/>
     <include relativeToChangelogFile="true" file="202002012319-document-migration.xml"/>
 
 </databaseChangeLog>

@@ -45,7 +45,7 @@ public class RegistrationControllerImpl extends AbstractMainController implement
         try{
             userRepository.save(user);
         }catch(DataIntegrityViolationException ex){
-            throw new ServerException(ErrorEnum.USERNAME_OR_EMAIL_ARE_ALWAYS_EXIST, List.of());
+            throw new ServerException(ErrorEnum.USERNAME_OR_EMAIL_ARE_ALWAYS_EXIST);
         }
         return prepareResponseEntity();
     }

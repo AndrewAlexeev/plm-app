@@ -22,22 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
-    private static final String LOGIN_ENDPOINT = "/api/v1/auth/login";
-    private static final String REGISTRATION_ENDPOINT = "/api/v1/registration";
-
-    private static final String SWAGGER_ENDPOINT = "/swagger-ui.html";
-
-    private static final String[] AUTH_WHITELIST = {
-            // -- swagger ui
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**"
-            // other public endpoints of your API may be appended to this array
-    };
+    private static final String REGISTRATION_ENDPOINT = "/registration";
 
     @Bean
     @Override
@@ -58,13 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(REGISTRATION_ENDPOINT).permitAll()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-
-
-                //.antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**")
-                //.permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
-
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

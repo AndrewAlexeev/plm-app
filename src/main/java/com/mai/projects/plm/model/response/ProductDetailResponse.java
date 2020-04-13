@@ -1,6 +1,6 @@
-package com.mai.projects.plm.utils;
+package com.mai.projects.plm.model.response;
 
-import com.mai.projects.plm.model.response.StageResponse;
+import com.mai.projects.plm.enums.StatusEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,4 +13,5 @@ public class ProductDetailResponse {
 	private String title;
 	private String serialNumber;
 	private List<StageResponse> stages;
+	private StatusEnum status;
 }

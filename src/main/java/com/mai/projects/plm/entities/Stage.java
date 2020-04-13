@@ -1,10 +1,13 @@
 package com.mai.projects.plm.entities;
 
+import com.mai.projects.plm.enums.StatusEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,7 +45,10 @@ public class Stage {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id")
 	private Product product;
-	@OneToMany(mappedBy = "stage",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "stage", fetch = FetchType.EAGER)
 	private List<Document> documents;
 
+	@Column(name = "status")
+	@Enumerated(EnumType.STRING)
+	private StatusEnum status = StatusEnum.CREATED;
 }

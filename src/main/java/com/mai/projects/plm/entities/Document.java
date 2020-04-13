@@ -37,4 +37,5 @@ public class Document {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "stage_id")
 	private Stage stage;
+
 }

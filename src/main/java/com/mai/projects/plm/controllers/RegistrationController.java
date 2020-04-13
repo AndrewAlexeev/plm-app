@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 @Validated
 @Api
-@RequestMapping(path="/api/v1/registration",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path="/registration",produces = MediaType.APPLICATION_JSON_VALUE)
 public interface RegistrationController {
 
     @PostMapping()

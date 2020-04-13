@@ -100,3 +100,5 @@ Temporary Items
 **/src-generated/*
 **/generated/*
 **/local-datasources.json
+
+/upload

@@ -1,5 +1,8 @@
 package com.mai.projects.plm.controllers;
 
+import com.mai.projects.plm.entities.User;
+import com.mai.projects.plm.enums.ErrorEnum;
+import com.mai.projects.plm.exception.ServerException;
 import com.mai.projects.plm.model.response.ResponseObject;
 import com.mai.projects.plm.model.response.UserResponse;
 import com.mai.projects.plm.repository.UserRepository;
@@ -25,5 +28,11 @@ public class UserControllerImpl extends AbstractMainController implements UserCo
 				.map(User2UserResponseAdapter::convert)
 				.collect(Collectors.toList());
 		return prepareResponseEntity(userResponseList);
+	}
+
+	@Override
+	public ResponseEntity<ResponseObject<UserResponse>> fetchUser(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new ServerException(ErrorEnum.USERS_NOT_FOUND));
+		return prepareResponseEntity(User2UserResponseAdapter.convert(user));
 	}
 }

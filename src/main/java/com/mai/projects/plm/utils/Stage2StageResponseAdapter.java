@@ -22,7 +22,7 @@ public class Stage2StageResponseAdapter {
 				.collect(Collectors.toList());
 
 		stageResponse.setDocuments(documentResponseList);
-
+		stageResponse.setStatus(stage.getStatus());
 		return stageResponse;
 	}
 }

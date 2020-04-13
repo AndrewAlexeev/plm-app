@@ -13,4 +13,8 @@ import java.util.List;
 public class ServerException extends RuntimeException {
     ErrorEnum error;
     private List<String> params;
+   public ServerException(ErrorEnum error){
+        this.error = error;
+        params = null;
+    }
 }

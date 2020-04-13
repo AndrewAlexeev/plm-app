@@ -1,6 +1,7 @@
 package com.mai.projects.plm.model.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mai.projects.plm.enums.StatusEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,4 +17,5 @@ public class StageResponse {
 	private LocalDate startDate;
 	private LocalDate finishDate;
 	private List<DocumentResponse> documents;
+	private StatusEnum status;
 }
