@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,8 +81,8 @@ public class DocumentControllerImpl extends AbstractMainController implements Do
 		byte[] data = Files.readAllBytes(path);
 		ByteArrayResource resource = new ByteArrayResource(data);
 		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "inline" )
-				.contentType(MediaType.IMAGE_PNG)
+				.header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+				.header(HttpHeaders.CONTENT_TYPE,Files.probeContentType(path))
 				.contentLength(data.length)
 				.body(resource);
 	}
