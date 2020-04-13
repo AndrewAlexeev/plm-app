@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -14,30 +15,38 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@AllArgsConstructor
 @Slf4j
+@Service
+@AllArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
 
-    private  JwtTokenProvider jwtTokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
-        log.info("Token = {}",token);
-        try {
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                log.info("valid Token");
+	@Override
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+		String header = httpServletRequest.getHeader("Authorization");
+		if (header != null && header.startsWith("Bearer ")) {
+			String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
+			log.info("Token = {}", token);
+			try {
+				if (token != null && jwtTokenProvider.validateToken(token)) {
+					log.info("valid Token");
 
-                Authentication auth = jwtTokenProvider.getAuthentication(token);
+					Authentication auth = jwtTokenProvider.getAuthentication(token);
 
-                if (auth != null) {
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                }
-            }
-        }catch (JwtException e){
+					if (auth != null) {
+						SecurityContextHolder.getContext().setAuthentication(auth);
+					}
+				}
+			} catch (JwtException e) {
 
-        }
+			}
+			filterChain.doFilter(servletRequest, servletResponse);
+		} else {
+			filterChain.doFilter(servletRequest, servletResponse);
 
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
+
+		}
+	}
 }
