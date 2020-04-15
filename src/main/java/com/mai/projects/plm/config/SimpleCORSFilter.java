@@ -1,5 +1,6 @@
 package com.mai.projects.plm.config;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
-@RequestMapping(value = "/api/v1/auth/login", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/v1/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api
 public interface AuthenticationController {
-	@PostMapping()
+	@PostMapping(path ="/login" ,consumes = MediaType.TEXT_PLAIN_VALUE)
 	ResponseEntity<ResponseObject<TokenResponse>> login(Principal principal);
 }

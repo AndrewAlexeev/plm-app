@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.httpBasic().and()
-				.cors().disable()
 				.csrf().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
@@ -50,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and()
-				.addFilterAt(jwtTokenFilter, BasicAuthenticationFilter.class)
-				.addFilterBefore(simpleCORSFilter,BasicAuthenticationFilter.class);
+				.addFilterAt(jwtTokenFilter, BasicAuthenticationFilter.class);
+				//.addFilterBefore(simpleCORSFilter,BasicAuthenticationFilter.class);
 	}
 
 }
