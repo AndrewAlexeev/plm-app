@@ -1,5 +1,6 @@
 package com.mai.projects.plm.security.config;
 
+import com.mai.projects.plm.config.SimpleCORSFilter;
 import com.mai.projects.plm.security.jwt.JwtTokenFilter;
 import com.mai.projects.plm.security.jwt.JwtUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -17,38 +18,40 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenFilter jwtTokenFilter;
-    private final JwtUserDetailsService userService;
+	private final JwtTokenFilter jwtTokenFilter;
+	private final JwtUserDetailsService userService;
+	private final SimpleCORSFilter simpleCORSFilter;
 
+	private static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
+	private static final String REGISTRATION_ENDPOINT = "/registration";
 
-    private static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
-    private static final String REGISTRATION_ENDPOINT = "/registration";
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
-    }
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userService);
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .httpBasic().and()
-                .cors().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(REGISTRATION_ENDPOINT).permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .addFilterAt(jwtTokenFilter, BasicAuthenticationFilter.class);
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+				.httpBasic().and()
+				.cors().disable()
+				.csrf().disable()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.authorizeRequests()
+				.antMatchers(REGISTRATION_ENDPOINT).permitAll()
+				.antMatchers("/swagger-resources/**").permitAll()
+				.antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+				.anyRequest().authenticated()
+				.and()
+				.addFilterAt(jwtTokenFilter, BasicAuthenticationFilter.class)
+				.addFilterBefore(simpleCORSFilter,BasicAuthenticationFilter.class);
+	}
 
 }
