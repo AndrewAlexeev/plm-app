@@ -2,6 +2,7 @@ package com.mai.projects.plm.controllers;
 
 
 import com.mai.projects.plm.model.request.RegistrationRequest;
+import com.mai.projects.plm.model.response.ResponseObject;
 import io.swagger.annotations.Api;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,9 @@ import javax.validation.Valid;
 
 @Validated
 @Api
-@RequestMapping(path="/registration",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/registration", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface RegistrationController {
 
-    @PostMapping()
-    ResponseEntity registration(@Valid @RequestBody RegistrationRequest registrationRequest);
+	@PostMapping()
+	ResponseEntity<ResponseObject<Object>> registration(@Valid @RequestBody RegistrationRequest registrationRequest);
 }

@@ -7,6 +7,7 @@ import com.mai.projects.plm.entities.Status;
 import com.mai.projects.plm.entities.User;
 import com.mai.projects.plm.exception.ServerException;
 import com.mai.projects.plm.model.request.RegistrationRequest;
+import com.mai.projects.plm.model.response.ResponseObject;
 import com.mai.projects.plm.repository.RoleRepository;
 import com.mai.projects.plm.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class RegistrationControllerImpl extends AbstractMainController implement
     private final RoleRepository roleRepository;
 
     @Override
-    public ResponseEntity registration(@Valid RegistrationRequest registrationRequest) {
+    public ResponseEntity<ResponseObject<Object>> registration(@Valid RegistrationRequest registrationRequest) {
         Role userRole = roleRepository.findByName(RoleEnum.USER.getName()).orElse(null);
         User user =  new User();
 
