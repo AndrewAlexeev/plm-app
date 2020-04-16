@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
-@RequestMapping(value = "/api/v1/auth/login", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api
 public interface AuthenticationController {
 	@GetMapping()

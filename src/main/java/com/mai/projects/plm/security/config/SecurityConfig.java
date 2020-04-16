@@ -1,6 +1,5 @@
 package com.mai.projects.plm.security.config;
 
-import com.mai.projects.plm.config.SimpleCORSFilter;
 import com.mai.projects.plm.security.jwt.JwtTokenFilter;
 import com.mai.projects.plm.security.jwt.JwtUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final JwtTokenFilter jwtTokenFilter;
 	private final JwtUserDetailsService userService;
-	private final SimpleCORSFilter simpleCORSFilter;
 
 	private static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
 	private static final String REGISTRATION_ENDPOINT = "/registration";
-	private static final String aa = "/api/v1/auth/login";
-
 
 	@Bean
 	@Override
@@ -47,20 +43,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.httpBasic().and()
-				.cors().disable()
+				.cors().configurationSource(corsConfigurationSource()).and()
 				.csrf().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.authorizeRequests()
 				.antMatchers(REGISTRATION_ENDPOINT).permitAll()
-				.antMatchers(aa).permitAll()
 				.antMatchers("/swagger-resources/**").permitAll()
 				.antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
 				.anyRequest().authenticated()
 				.and()
-				.addFilterAt(jwtTokenFilter, BasicAuthenticationFilter.class)
-				.addFilterBefore(simpleCORSFilter,BasicAuthenticationFilter.class);
+				.addFilterAt(jwtTokenFilter, BasicAuthenticationFilter.class);
 	}
 
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
+		configuration.setAllowCredentials(true);
+		//the below three lines will add the relevant CORS response headers
+		configuration.addAllowedOrigin("*");
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
 }
