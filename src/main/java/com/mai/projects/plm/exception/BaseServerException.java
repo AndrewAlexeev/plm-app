@@ -10,10 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ServerException extends RuntimeException {
+public class BaseServerException extends RuntimeException {
     ErrorEnum error;
     private List<String> params;
-   public ServerException(ErrorEnum error){
+   public BaseServerException(ErrorEnum error){
         this.error = error;
         params = null;
     }

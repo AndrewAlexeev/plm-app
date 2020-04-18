@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @RequestMapping(value = "document/")
 public interface DocumentController {
 	@PostMapping(value = "upload/{docId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-	ResponseEntity<ResponseObject<Object>> upload(@RequestParam("file") MultipartFile file, @PathVariable Long docId, HttpServletRequest httpServletRequest) throws IOException;
+	ResponseEntity<ResponseObject<Object>> upload(@RequestParam("file") MultipartFile file, @PathVariable Long docId, HttpServletRequest httpServletRequest);
 
 	@GetMapping(value = "download/{docId}")
-	ResponseEntity<ByteArrayResource> download(@PathVariable Long docId) throws IOException;
+	ResponseEntity<ByteArrayResource> download(@PathVariable Long docId);
 
 }

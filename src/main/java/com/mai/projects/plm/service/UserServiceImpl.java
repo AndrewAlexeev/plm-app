@@ -4,7 +4,7 @@ import com.mai.projects.plm.entities.Role;
 import com.mai.projects.plm.entities.User;
 import com.mai.projects.plm.enums.ErrorEnum;
 import com.mai.projects.plm.enums.RoleEnum;
-import com.mai.projects.plm.exception.ServerException;
+import com.mai.projects.plm.exception.BaseServerException;
 import com.mai.projects.plm.repository.RoleRepository;
 import com.mai.projects.plm.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void register(User user) {
-		Role roleUser = roleRepository.findByName(RoleEnum.USER.getName()).orElseThrow(() -> new ServerException(ErrorEnum.ROLE_NOT_FOUND, List.of(user.getUserName())));
+		Role roleUser = roleRepository.findByName(RoleEnum.USER.getName()).orElseThrow(() -> new BaseServerException(ErrorEnum.ROLE_NOT_FOUND, List.of(user.getUserName())));
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRoles(List.of(roleUser));
 		try {
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
 		} catch (
 				DataIntegrityViolationException ex) {
-			throw new ServerException(ErrorEnum.USERNAME_OR_EMAIL_ARE_ALWAYS_EXIST);
+			throw new BaseServerException(ErrorEnum.USERNAME_OR_EMAIL_ARE_ALWAYS_EXIST);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAll() {
 		List<User> userList = userRepository.findAll();
 		if (CollectionUtils.isEmpty(userList)) {
-			throw new ServerException(ErrorEnum.USERS_NOT_FOUND);
+			throw new BaseServerException(ErrorEnum.USERS_NOT_FOUND);
 		}
 		return userList;
 	}
@@ -58,14 +58,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findById(Long id) {
-		return userRepository.findById(id).orElseThrow(() -> new ServerException(ErrorEnum.USERS_NOT_FOUND));
+		return userRepository.findById(id).orElseThrow(() -> new BaseServerException(ErrorEnum.USERS_NOT_FOUND));
 	}
 
 	@Override
 	public List<User> findAllById(List<Long> usersId) {
 		List<User> users = userRepository.findAllById(usersId);
 		if (usersId.size() != users.size()) {
-			throw new ServerException(ErrorEnum.USERS_NOT_FOUND);
+			throw new BaseServerException(ErrorEnum.USERS_NOT_FOUND);
 		}
 		return users;
 	}

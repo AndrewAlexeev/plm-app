@@ -2,7 +2,7 @@ package com.mai.projects.plm.service;
 
 import com.mai.projects.plm.entities.Product;
 import com.mai.projects.plm.enums.ErrorEnum;
-import com.mai.projects.plm.exception.ServerException;
+import com.mai.projects.plm.exception.BaseServerException;
 import com.mai.projects.plm.repository.DocumentRepository;
 import com.mai.projects.plm.repository.ProductRepository;
 import com.mai.projects.plm.repository.StageRepository;
@@ -34,6 +34,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product findById(Long id) {
-		return productRepository.findById(id).orElseThrow(() -> new ServerException(ErrorEnum.PRODUCT_NOT_FOUND));
+		return productRepository.findById(id).orElseThrow(() -> new BaseServerException(ErrorEnum.PRODUCT_NOT_FOUND));
 	}
 }

@@ -2,7 +2,7 @@ package com.mai.projects.plm.controllers.advice.exception.handler;
 
 import com.mai.projects.plm.controllers.AbstractMainController;
 import com.mai.projects.plm.enums.ErrorEnum;
-import com.mai.projects.plm.exception.ServerException;
+import com.mai.projects.plm.exception.BaseServerException;
 import com.mai.projects.plm.model.response.ResponseHeader;
 import com.mai.projects.plm.model.response.ResponseObject;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -20,7 +20,7 @@ public class ExceptionHandler extends AbstractMainController implements Controll
 
 
     @Override
-    public ResponseEntity<ResponseObject<Object>> catchServerException(ServerException ex) {
+    public ResponseEntity<ResponseObject<Object>> catchServerException(BaseServerException ex) {
         ResponseHeader responseHeader= new ResponseHeader();
         ErrorEnum errorEnum = ex.getError();
         responseHeader.setResponseCode(errorEnum.getCode());

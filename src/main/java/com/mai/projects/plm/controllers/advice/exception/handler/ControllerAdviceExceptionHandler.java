@@ -1,6 +1,6 @@
 package com.mai.projects.plm.controllers.advice.exception.handler;
 
-import com.mai.projects.plm.exception.ServerException;
+import com.mai.projects.plm.exception.BaseServerException;
 import com.mai.projects.plm.model.response.ResponseObject;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 public interface ControllerAdviceExceptionHandler {
-    @ExceptionHandler(ServerException.class)
+    @ExceptionHandler(BaseServerException.class)
     @ResponseBody
-    <T> ResponseEntity<ResponseObject<Object>> catchServerException(ServerException ex);
+    <T> ResponseEntity<ResponseObject<Object>> catchServerException(BaseServerException ex);
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseBody

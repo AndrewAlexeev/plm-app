@@ -1,5 +1,7 @@
 package com.mai.projects.plm.controllers;
 
+import com.mai.projects.plm.enums.ErrorEnum;
+import com.mai.projects.plm.exception.BaseServerException;
 import com.mai.projects.plm.model.document.DocumentInfo;
 import com.mai.projects.plm.model.response.ResponseObject;
 import com.mai.projects.plm.service.DocumentService;
@@ -22,14 +24,27 @@ public class DocumentControllerImpl extends AbstractMainController implements Do
 	private final DocumentService documentService;
 
 	@Override
-	public ResponseEntity<ResponseObject<Object>> upload(MultipartFile file, Long docId, HttpServletRequest httpServletRequest) throws IOException {
-		documentService.upload(file,docId);
+	public ResponseEntity<ResponseObject<Object>> upload(MultipartFile file, Long docId, HttpServletRequest httpServletRequest)  {
+
+		try {
+			documentService.upload(file,docId);
+		} catch (IOException e) {
+			log.info(e.getMessage());
+			throw new BaseServerException(ErrorEnum.UPLOAD_DOCUMENT_ERROR);
+		}
 		return prepareEmptyResponseEntity();
 	}
 
 	@Override
-	public ResponseEntity<ByteArrayResource> download(Long docId) throws IOException {
-		DocumentInfo documentInfo = documentService.download(docId);
+	public ResponseEntity<ByteArrayResource> download(Long docId)  {
+		DocumentInfo documentInfo = null;
+		try {
+			documentInfo = documentService.download(docId);
+		} catch (IOException e) {
+			log.info(e.getMessage());
+			throw new BaseServerException(ErrorEnum.DOWNLOAD_DOCUMENT_ERROR);
+		}
+
 		ByteArrayResource resource = new ByteArrayResource(documentInfo.getData());
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline")

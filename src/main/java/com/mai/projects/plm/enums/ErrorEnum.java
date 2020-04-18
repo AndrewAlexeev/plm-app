@@ -11,7 +11,10 @@ public enum ErrorEnum {
 	ROLE_NOT_FOUND("user role not found", "4"),
 	USERNAME_OR_EMAIL_ARE_ALWAYS_EXIST("данные username или email уже существует", "5"),
 	PRODUCT_NOT_FOUND("данное изделие не найдено", "6"),
-	INVALID_DOCUMENT_ID("не найдена информация о документа с id={}", "7");
+	INVALID_DOCUMENT_ID("не найдена информация о документа с id={}", "7"),
+	UPLOAD_DOCUMENT_ERROR("ошибка при загрузке документа", "8"),
+	DOWNLOAD_DOCUMENT_ERROR("ошибка при скачивании документа", "8");
+
 
 
 	private String message;

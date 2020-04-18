@@ -5,7 +5,7 @@ import com.mai.projects.plm.entities.Product;
 import com.mai.projects.plm.entities.Stage;
 import com.mai.projects.plm.enums.ErrorEnum;
 import com.mai.projects.plm.enums.StatusEnum;
-import com.mai.projects.plm.exception.ServerException;
+import com.mai.projects.plm.exception.BaseServerException;
 import com.mai.projects.plm.model.document.DocumentInfo;
 import com.mai.projects.plm.repository.DocumentRepository;
 import com.mai.projects.plm.repository.ProductRepository;
@@ -47,7 +47,7 @@ public class DocumentServiceImpl implements DocumentService {
 		Files.copy(file.getInputStream(), rootLocation.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 		Document document = documentRepository.
 				findById(docId)
-				.orElseThrow(() -> new ServerException(ErrorEnum.INVALID_DOCUMENT_ID, List.of(docId.toString())));
+				.orElseThrow(() -> new BaseServerException(ErrorEnum.INVALID_DOCUMENT_ID, List.of(docId.toString())));
 
 		document.setPath(fileName);
 		Stage stage = document.getStage();
@@ -69,7 +69,7 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public DocumentInfo download(Long docId) throws IOException {
 		Document document = documentRepository.findById(docId)
-				.orElseThrow(() -> new ServerException(ErrorEnum.INVALID_DOCUMENT_ID, List.of(docId.toString())));
+				.orElseThrow(() -> new BaseServerException(ErrorEnum.INVALID_DOCUMENT_ID, List.of(docId.toString())));
 
 		Path path = rootLocation.resolve(document.getPath());
 		DocumentInfo documentInfo = new DocumentInfo();
