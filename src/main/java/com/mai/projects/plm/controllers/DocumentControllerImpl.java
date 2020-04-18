@@ -23,6 +23,7 @@ public class DocumentControllerImpl extends AbstractMainController implements Do
 
 	@Override
 	public ResponseEntity<ResponseObject<Object>> upload(MultipartFile file, Long docId, HttpServletRequest httpServletRequest) throws IOException {
+		documentService.upload(file,docId);
 		return prepareEmptyResponseEntity();
 	}
 
