@@ -22,7 +22,7 @@ public class StageContext2StageAdapter {
 		Stage stage = new Stage();
 		stage.setStartDate(stageContext.getStartDate());
 		stage.setFinishDate(stageContext.getFinishDate());
-		stage.setSerialNumber(stageContext.getSerialNumber());
+		stage.setSerialNumber(stageContext.getIndex());
 		stage.setTitle(stageContext.getTitle());
 		Map<Long, User> userHashMap = users.stream().collect(Collectors.toMap(User::getId, Function.identity()));
 

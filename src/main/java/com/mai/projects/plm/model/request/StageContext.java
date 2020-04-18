@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class StageContext {
 	@NotBlank
-	private Integer serialNumber;
+	private Integer index;
 	@NotBlank
 	private String title;
 	@NotNull
