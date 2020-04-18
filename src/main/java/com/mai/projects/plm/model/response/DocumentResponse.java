@@ -9,4 +9,5 @@ public class DocumentResponse {
 	private String title;
 	private UserResponse user;
 	private String path;
+	private Long id;
 }
