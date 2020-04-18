@@ -1,6 +1,5 @@
 package com.mai.projects.plm.security.jwt;
 
-import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -28,23 +27,18 @@ public class JwtTokenFilter extends GenericFilterBean {
 		String header = httpServletRequest.getHeader("Authorization");
 		if (header != null && header.startsWith("Bearer ")) {
 			String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
-			try {
-				if (token != null && jwtTokenProvider.validateToken(token)) {
-					log.info("valid Token");
+			if (token != null && jwtTokenProvider.validateToken(token)) {
 
-					Authentication auth = jwtTokenProvider.getAuthentication(token);
+				Authentication auth = jwtTokenProvider.getAuthentication(token);
 
-					if (auth != null) {
-						SecurityContextHolder.getContext().setAuthentication(auth);
-					}
+				if (auth != null) {
+					SecurityContextHolder.getContext().setAuthentication(auth);
 				}
-			} catch (JwtException e) {
-
 			}
+
 			filterChain.doFilter(servletRequest, servletResponse);
 		} else {
 			filterChain.doFilter(servletRequest, servletResponse);
-
 
 		}
 	}

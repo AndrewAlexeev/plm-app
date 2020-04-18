@@ -1,6 +1,5 @@
 package com.mai.projects.plm.security.jwt;
 
-import com.mai.projects.plm.security.jwt.model.JwtUser;
 import com.mai.projects.plm.entities.User;
 import com.mai.projects.plm.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +14,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+	private final UserService userService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByUserName(username);
-
-        if (user == null) {
-            throw new UsernameNotFoundException("User with username: " + username + " not found");
-        }
-
-        JwtUser jwtUser = JwtUserFactory.create(user);
-        log.info("IN loadUserByUsername - user with username: {} successfully loaded", username);
-        return jwtUser;
-    }
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userService.findByUserName(username);
+		return User2JwtUserAdapter.convert(user);
+	}
 }

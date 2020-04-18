@@ -10,8 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class JwtUserFactory {
-    public static JwtUser create(User user) {
+public final class User2JwtUserAdapter {
+    public static JwtUser convert(User user) {
         return JwtUser.builder()
                 .email(user.getEmail())
                 .lastName(user.getLastName())
