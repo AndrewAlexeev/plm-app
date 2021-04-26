@@ -25,7 +25,7 @@
         <hikari.version>3.3.1</hikari.version>
         <liquibase.version>3.8.5</liquibase.version>
         <commons-collection.version>4.1</commons-collection.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <jwt.version>0.9.1</jwt.version>
         <spring-security-web.version>5.2.1.RELEASE</spring-security-web.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
