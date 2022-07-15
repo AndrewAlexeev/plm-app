@@ -31,7 +31,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <target.version>12</target.version>
         <source.version>12</source.version>
-        <jackson-databind.version>2.9.8</jackson-databind.version>
+        <jackson-databind.version>2.12.6.1</jackson-databind.version>
         <jackson-core.version>2.10.2</jackson-core.version>
     </properties>
 
